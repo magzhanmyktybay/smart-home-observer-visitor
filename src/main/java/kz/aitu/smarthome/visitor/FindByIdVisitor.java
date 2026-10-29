@@ -7,6 +7,7 @@ import kz.aitu.smarthome.home.Home;
 import kz.aitu.smarthome.home.Lamp;
 import kz.aitu.smarthome.home.Lock;
 import kz.aitu.smarthome.home.Room;
+import kz.aitu.smarthome.home.SmokeDetector;
 import kz.aitu.smarthome.home.Thermostat;
 import kz.aitu.smarthome.home.Visitor;
 import kz.aitu.smarthome.home.Node;
@@ -55,6 +56,11 @@ public final class FindByIdVisitor implements Visitor<Optional<Node>> {
     @Override
     public Optional<Node> visitLock(Lock lock) {
         return match(lock);
+    }
+
+    @Override
+    public Optional<Node> visitSmokeDetector(SmokeDetector smokeDetector) {
+        return match(smokeDetector);
     }
 
     private Optional<Node> search(Container container) {

@@ -7,6 +7,7 @@ import kz.aitu.smarthome.home.Home;
 import kz.aitu.smarthome.home.Lamp;
 import kz.aitu.smarthome.home.Lock;
 import kz.aitu.smarthome.home.Room;
+import kz.aitu.smarthome.home.SmokeDetector;
 import kz.aitu.smarthome.home.Thermostat;
 import kz.aitu.smarthome.home.Visitor;
 
@@ -20,6 +21,7 @@ public final class MaintenanceTimeVisitor implements Visitor<Integer> {
     private static final int THERMOSTAT_MINUTES = 30;
     private static final int CAMERA_MINUTES = 15;
     private static final int LOCK_MINUTES = 10;
+    private static final int SMOKE_DETECTOR_MINUTES = 10;
 
     @Override
     public Integer visitHome(Home home) {
@@ -54,6 +56,11 @@ public final class MaintenanceTimeVisitor implements Visitor<Integer> {
     @Override
     public Integer visitLock(Lock lock) {
         return LOCK_MINUTES;
+    }
+
+    @Override
+    public Integer visitSmokeDetector(SmokeDetector smokeDetector) {
+        return SMOKE_DETECTOR_MINUTES;
     }
 
     private int sumChildren(Container container) {

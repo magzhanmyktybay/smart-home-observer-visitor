@@ -20,4 +20,6 @@ public interface Visitor<R> {
     R visitCamera(Camera camera);
 
     R visitLock(Lock lock);
+
+    R visitSmokeDetector(SmokeDetector smokeDetector);
 }

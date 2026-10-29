@@ -7,6 +7,7 @@ import kz.aitu.smarthome.home.Home;
 import kz.aitu.smarthome.home.Lamp;
 import kz.aitu.smarthome.home.Lock;
 import kz.aitu.smarthome.home.Room;
+import kz.aitu.smarthome.home.SmokeDetector;
 import kz.aitu.smarthome.home.Thermostat;
 import kz.aitu.smarthome.home.Visitor;
 
@@ -60,6 +61,11 @@ public final class DeviceStatsVisitor implements Visitor<Void> {
     @Override
     public Void visitLock(Lock lock) {
         return countDevice("lock", lock.locked());
+    }
+
+    @Override
+    public Void visitSmokeDetector(SmokeDetector smokeDetector) {
+        return countDevice("smokeDetector", smokeDetector.armed());
     }
 
     public DeviceStats stats() {

@@ -7,6 +7,7 @@ import kz.aitu.smarthome.home.Home;
 import kz.aitu.smarthome.home.Lamp;
 import kz.aitu.smarthome.home.Lock;
 import kz.aitu.smarthome.home.Room;
+import kz.aitu.smarthome.home.SmokeDetector;
 import kz.aitu.smarthome.home.Thermostat;
 import kz.aitu.smarthome.home.Visitor;
 
@@ -46,6 +47,11 @@ public final class PowerUsageVisitor implements Visitor<Double> {
     @Override
     public Double visitLock(Lock lock) {
         return lock.watts();
+    }
+
+    @Override
+    public Double visitSmokeDetector(SmokeDetector smokeDetector) {
+        return smokeDetector.watts();
     }
 
     private double sumChildren(Container container) {

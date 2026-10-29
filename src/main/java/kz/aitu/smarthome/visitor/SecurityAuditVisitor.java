@@ -7,6 +7,7 @@ import kz.aitu.smarthome.home.Home;
 import kz.aitu.smarthome.home.Lamp;
 import kz.aitu.smarthome.home.Lock;
 import kz.aitu.smarthome.home.Room;
+import kz.aitu.smarthome.home.SmokeDetector;
 import kz.aitu.smarthome.home.Thermostat;
 import kz.aitu.smarthome.home.Visitor;
 import kz.aitu.smarthome.home.Device;
@@ -49,6 +50,11 @@ public final class SecurityAuditVisitor implements Visitor<List<Device>> {
     @Override
     public List<Device> visitLock(Lock lock) {
         return lock.locked() ? List.of() : List.of(lock);
+    }
+
+    @Override
+    public List<Device> visitSmokeDetector(SmokeDetector smokeDetector) {
+        return smokeDetector.armed() ? List.of() : List.of(smokeDetector);
     }
 
     private List<Device> collectChildren(Container container) {

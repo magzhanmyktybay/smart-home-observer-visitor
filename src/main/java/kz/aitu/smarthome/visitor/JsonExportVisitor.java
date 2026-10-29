@@ -7,6 +7,7 @@ import kz.aitu.smarthome.home.Home;
 import kz.aitu.smarthome.home.Lamp;
 import kz.aitu.smarthome.home.Lock;
 import kz.aitu.smarthome.home.Room;
+import kz.aitu.smarthome.home.SmokeDetector;
 import kz.aitu.smarthome.home.Thermostat;
 import kz.aitu.smarthome.home.Visitor;
 
@@ -49,6 +50,12 @@ public final class JsonExportVisitor implements Visitor<String> {
     @Override
     public String visitLock(Lock lock) {
         return leaf("lock", lock.id(), "\"watts\":" + lock.watts() + ",\"locked\":" + lock.locked());
+    }
+
+    @Override
+    public String visitSmokeDetector(SmokeDetector smokeDetector) {
+        return leaf("smokeDetector", smokeDetector.id(),
+                "\"watts\":" + smokeDetector.watts() + ",\"armed\":" + smokeDetector.armed());
     }
 
     private String container(String type, Container container) {
