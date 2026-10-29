@@ -1,0 +1,122 @@
+classDiagram
+    direction LR
+    class Event~K~ {
+        <<interface>>
+        +type() K
+    }
+    class Observer~E~ {
+        <<interface>>
+        +onEvent(E)
+    }
+    class Subject~K,E~ {
+        <<interface>>
+        +subscribe(K, Observer)
+        +unsubscribe(K, Observer)
+    }
+    class EventSource~K,E~ {
+        <<abstract>>
+        -listeners: ConcurrentHashMap~K, CopyOnWriteArrayList~
+        #publish(E)
+        +failedDeliveries() long
+    }
+    class HomeEvent {
+        <<record>>
+        type sourceId roomId value detail
+    }
+    class Sensor {
+        +report(roomId, value)
+    }
+    class EnergyTracker {
+        +totalWattHours()
+    }
+    class SecurityAlarm {
+        -home: Home
+        +arm()
+        +disarm()
+    }
+    class MobileApp
+    class AutomationRules
+    class EventLog
+    class WelcomeHomeRule
+    Subject <|.. EventSource
+    Event <|.. HomeEvent
+    EventSource <|-- Sensor
+    EventSource <|-- EnergyTracker
+    EventSource <|-- SecurityAlarm
+    Observer <|.. EnergyTracker
+    Observer <|.. SecurityAlarm
+    Observer <|.. MobileApp
+    Observer <|.. AutomationRules
+    Observer <|.. EventLog
+    Observer <|.. WelcomeHomeRule
+    WelcomeHomeRule --> Subject : unsubscribes itself
+
+    class Node {
+        <<interface>>
+        +id()
+        +accept(Visitor~R~) R
+    }
+    class Container {
+        <<interface>>
+        +children() List
+    }
+    class Device {
+        <<interface>>
+    }
+    class Home
+    class Floor
+    class Room
+    class Lamp
+    class Thermostat
+    class Camera
+    class Lock
+    class SmokeDetector
+    Node <|-- Container
+    Node <|-- Device
+    Container <|.. Home
+    Container <|.. Floor
+    Container <|.. Room
+    Home o-- Floor
+    Floor o-- Room
+    Room o-- Device
+    Device <|.. Lamp
+    Device <|.. Thermostat
+    Device <|.. Camera
+    Device <|.. Lock
+    Device <|.. SmokeDetector
+
+    class Visitor~R~ {
+        <<interface>>
+        +visitHome()
+        +visitFloor()
+        +visitRoom()
+        +visitLamp()
+        +visitThermostat()
+        +visitCamera()
+        +visitLock()
+        +visitSmokeDetector()
+    }
+    class PowerUsageVisitor
+    class DeviceStatsVisitor
+    class SecurityAuditVisitor
+    class JsonExportVisitor
+    class FindByIdVisitor
+    class MaintenanceTimeVisitor
+    Visitor <|.. PowerUsageVisitor
+    Visitor <|.. DeviceStatsVisitor
+    Visitor <|.. SecurityAuditVisitor
+    Visitor <|.. JsonExportVisitor
+    Visitor <|.. FindByIdVisitor
+    Visitor <|.. MaintenanceTimeVisitor
+    Node ..> Visitor : accept
+    SecurityAlarm ..> FindByIdVisitor : finds room
+    SecurityAlarm ..> SecurityAuditVisitor : inspects room
+
+    class ProducerPool {
+        -executor: ExecutorService
+        +runAll(producers)
+        +shutdown() boolean
+    }
+    class SensorProducer
+    ProducerPool ..> SensorProducer : runs
+    SensorProducer --> Sensor
